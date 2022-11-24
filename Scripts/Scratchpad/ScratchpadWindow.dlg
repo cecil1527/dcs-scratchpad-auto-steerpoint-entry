@@ -200,12 +200,78 @@ dialog = {
                         }
                     },
                     ["type"] = "Button"
-                }
+                },
+				["SteerpointsEntryButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+							["h"] = 20,
+                            ["w"] = 100,
+                            ["x"] = 0,
+                            ["y"] = 20
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Enter Stpts",
+                        ["tooltip"] = "Enter steerpoints into UFC",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+				["SteerpointsAbortButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 100,
+                            ["x"] = 100,
+                            ["y"] = 20
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Abort",
+                        ["tooltip"] = "Abort steerpoint entry",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
+				["SteerpointsTestButton"] = {
+                    ["params"] = {
+                        ["bounds"] = {
+                            ["h"] = 20,
+                            ["w"] = 100,
+                            ["x"] = 200,
+                            ["y"] = 20
+                        },
+                        ["enabled"] = true,
+                        ["tabOrder"] = 0,
+                        ["text"] = "Test",
+                        ["tooltip"] = "Test",
+                        ["visible"] = false,
+                        ["zindex"] = 1
+                    },
+                    ["skin"] = {
+                        ["params"] = {
+                            ["name"] = "buttonSkinAwacs"
+                        }
+                    },
+                    ["type"] = "Button"
+                },
             },
             ["params"] = {
                 ["bounds"] = {
                     [1] = {
-                        ["h"] = 20,
+                        ["h"] = 40,
                         ["w"] = 350,
                         ["x"] = 0,
                         ["y"] = 180

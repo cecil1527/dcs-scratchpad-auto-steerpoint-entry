@@ -36,6 +36,89 @@ local function loadScratchpad()
     -- Crosshair resources
     local crosshairWindow = nil
 
+    -- Scratchpad Steerpoint Entry stuff --------------------------------------------
+    -- create global table SCRATCHPAD_STEERPOINTS by loading file
+    dofile(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\scratchpad-steerpoints.lua]])
+
+    local steerpointsEntryBtn = nil
+    local steerpointsAbortBtn = nil
+    local steerpointsTestBtn = nil
+    local steerpointsDebug = true  -- for showing test button and reloading code each time
+
+    -- i'm going to try and confine as much as i can to function calls up here, though these function calls will
+    -- ultimately be scattered throughout the code below, but it's the best way to do it i think.
+    local function steerpointsSetupBtns(panel)
+        steerpointsEntryBtn = panel.SteerpointsEntryButton
+        steerpointsAbortBtn = panel.SteerpointsAbortButton
+        steerpointsTestBtn = panel.SteerpointsTestButton
+
+        steerpointsEntryBtn:addMouseDownCallback(
+            function(self)
+                if steerpointsDebug then
+                    -- shutdown to close the log file
+                    SCRATCHPAD_STEERPOINTS.ShutDown()
+                    -- reload lua so edits to the file work in game
+                    dofile(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\scratchpad-steerpoints.lua]])
+                end
+
+                -- enter steerpoints
+                SCRATCHPAD_STEERPOINTS.EnterSteerpoints(textarea:getText())
+            end
+        )
+
+        steerpointsAbortBtn:addMouseDownCallback(
+            function(self)
+                -- abort steerpoints entry
+                SCRATCHPAD_STEERPOINTS.Abort()
+            end
+        )
+
+        steerpointsTestBtn:addMouseDownCallback(
+            function(self)
+                -- reload and run test.lua
+                dofile(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\test.lua]])
+            end
+        )
+
+    end
+
+    local function steerpointsBtnsShow()
+        steerpointsEntryBtn:setVisible(true)
+        steerpointsAbortBtn:setVisible(true)
+        if steerpointsDebug then
+            steerpointsTestBtn:setVisible(true)
+        end
+    end
+
+    local function steerpointsBtnsHide()
+        steerpointsEntryBtn:setVisible(false)
+        steerpointsAbortBtn:setVisible(false)
+        steerpointsTestBtn:setVisible(false)
+    end
+
+    local function steerpointsHandleResize(rowYCoords, btnHeight)
+        steerpointsEntryBtn:setBounds(     0, rowYCoords[2], 120, btnHeight)
+        steerpointsAbortBtn:setBounds(   120, rowYCoords[2],  70, btnHeight)
+        steerpointsTestBtn:setBounds(    190, rowYCoords[2],  70, btnHeight)
+    end
+
+    local function getSteerpointPrefix()
+        -- most planes will just do "Steerpoint #"
+        local result = "Steerpoint "
+        
+        local acType = DCS.getPlayerUnitType()
+
+        -- but the apache has special chars for steerpoints
+        if acType == "AH-64D_BLK_II" then
+            return result.."\nWP WP "
+        end
+
+        result = result.."\n"
+        return result
+    end
+
+    -- End of Scratchpad Steerpoints stuff -------------------------------------
+
     local function log(str)
         if not str then
             return
@@ -314,6 +397,10 @@ local function loadScratchpad()
         local type = coordsType()
 
         local result = "\n\n"
+
+        -- Scratchpad Steerpoints: i prefix the coords with words
+        result = result..getSteerpointPrefix()
+
         if type.DMS then
             result = result .. formatCoord("DMS", true, lat, type.DMS) .. ", " .. formatCoord("DMS", false, lon, type.DMS) .. "\n"
         end
@@ -366,10 +453,13 @@ local function loadScratchpad()
             h = 30
         end
 
-        local panelY = 20 + 20 -- panel height + window title bar height
+        -- Scratchpad Steerpoints: i edited this section to work with a larger panel size to make room for a 2nd row of
+        -- buttons. pretty sure you can do something like panel:getSize() to get the panel's size defined in the DLG
+        -- file instead of hardcoding heights of 20 in here too
+        local panelY = 20 + 20 + 20
         local windowTitleBarHeight = 20
         textarea:setBounds(0, 0, w, h - panelY)
-        panel:setBounds(0, h - panelY, w, 20)
+        panel:setBounds(0, h - panelY, w, 40)
 
         self:setSize(w, h)
         config.windowSize = {w = w, h = h}
@@ -428,6 +518,8 @@ local function loadScratchpad()
         window:setHasCursor(true)
 
         updateCoordsMode()
+        
+        steerpointsBtnsShow()
 
         isHidden = false
     end
@@ -443,6 +535,8 @@ local function loadScratchpad()
         blur()
 
         crosshairWindow:setVisible(false)
+        
+        steerpointsBtnsHide()
 
         isHidden = true
     end
@@ -482,6 +576,8 @@ local function loadScratchpad()
         insertCoordsBtn = panel.ScratchpadInsertCoordsButton
         local prevButton = panel.ScratchpadPrevButton
         local nextButton = panel.ScratchpadNextButton
+
+        steerpointsSetupBtns(panel)
 
         -- setup textarea
         local skin = textarea:getSkin()
