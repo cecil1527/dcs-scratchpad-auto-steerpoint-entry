@@ -1,14 +1,20 @@
 # A fork of DCS Scratchpad to support automatically entering the coordinates into an airframe.
 
-I know others have made steerpoint entry using external programs, but I really liked how simple and elegant Scratchpad was. It uses DCS's built-in UIs, no external program required. And I wanted to see if it was possible to do steerpoint entry from it. Indeed it is. It got a little complicated since not all functionality is available from all lua environments, but ultimately it works!
+I know others have made steerpoint entry using external programs, but I really liked how simple and elegant DCS Scratchpad was. It uses DCS's built-in UIs, no external program required. And I wanted to see if it was possible to do automatic steerpoint entry from it. Indeed it is. It got a little complicated since not all functionality is available from all lua environments, but ultimately it works!
 
 1. Only F-16, F-18, and Ah-64D are supported at the moment, but in theory any airframe can be added.
 
 1. Coordinates are done using regex. I include a scratchpad .txt file for each airframe supported, but these are *not* required to be used with the corresponding airframe, it's just a nice way to organize storing coordinates in the different formats each airframe needs. The actual coordinate entry uses regex to find coordinate information in the text file you currently have selected.
 
 ## Installation
-add installsation instructions here. DON'T FORGET about export.lua
+1. Dump the Scratchpad and Scripts folder into: `..\Saved Games\DCS`
+1. Add the line: `dofile(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\scratchpad-steerpoints-export.lua]])` to your `..\Saved Games\DCS\Scripts\Export.lua`
 
+\
+Sidenote: It used to display game messages in the top right detailing the commands it was inputting, but the 2.8 update broke that. I'll restore the functionality once I figure out how to fix it.
+
+\
+\
 His readme below here ---------------------------------------------------------
 
 # DCS Scratchpad
