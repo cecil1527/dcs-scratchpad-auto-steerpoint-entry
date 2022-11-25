@@ -43,7 +43,7 @@ local function loadScratchpad()
     local steerpointsEntryBtn = nil
     local steerpointsAbortBtn = nil
     local steerpointsTestBtn = nil
-    local steerpointsDebug = true  -- for showing test button and reloading code each time
+    local steerpointsDebug = false  -- for showing test button and reloading code each time
 
     -- i'm going to try and confine as much as i can to function calls up here, though these function calls will
     -- ultimately be scattered throughout the code below, but it's the best way to do it i think.
@@ -104,16 +104,15 @@ local function loadScratchpad()
 
     local function getSteerpointPrefix()
         -- most planes will just do "Steerpoint #"
-        local result = "Steerpoint "
+        local result = "Steerpoint \n"
         
         local acType = DCS.getPlayerUnitType()
 
         -- but the apache has special chars for steerpoints
         if acType == "AH-64D_BLK_II" then
-            return result.."\nWP WP "
+            result = result.."WP WP \n"
         end
 
-        result = result.."\n"
         return result
     end
 
