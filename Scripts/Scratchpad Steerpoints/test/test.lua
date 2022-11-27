@@ -144,7 +144,7 @@ local function ExploreTable(t, tableName, depthLimit, findPatternStr, s, depth)
 end
 
 local function WriteToFile(str)
-    local file = io.open(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\test.log]], "a")
+    local file = io.open(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\test\test.log]], "a")
     file:write("\n\n"..str)
     file:flush()
     file:close()
@@ -182,7 +182,7 @@ end
 
 local function TestCoords()
     
-    local file = io.open(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\test.log]], "w")
+    local file = io.open(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\test\test.log]], "w")
     
     local pos = Export.LoGetCameraPosition()
     local dumpStr = ExploreTable(pos, "pos", 5)

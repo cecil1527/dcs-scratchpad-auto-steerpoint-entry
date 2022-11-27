@@ -122,6 +122,7 @@ function steerpointGeneration.MakeSteerpoints(contentStr)
 
     local steerpoints = {}
     local steerpoint = {}
+    local foundStart = false
 
     local lines = steerpointGeneration.SplitString(contentStr, "\n")
     for _, line in ipairs(lines) do
@@ -140,8 +141,9 @@ function steerpointGeneration.MakeSteerpoints(contentStr)
 		
 		-- check if it's the start of a new steerpoint (signaled by the word: Steerpoint)
 		elseif stptInfo then
-            -- clear table
+            -- mark that we found the start of steerpoint information
             steerpoint = {}
+            foundStart = true
 
             -- and add optional steerpoint number if it was provided
             local num = line:match("%d+")
@@ -163,11 +165,12 @@ function steerpointGeneration.MakeSteerpoints(contentStr)
 			steerpoint.elev = elevInfo
 			
             -- elevation info marks the end of a steerpoint, but only if we've also found coordinate information!
-            if steerpoint.ddm or steerpoint.dms or steerpoint.mgrs then
+            if foundStart and (steerpoint.ddm or steerpoint.dms or steerpoint.mgrs) then
                 -- insert it into the steerpoints list
                 table.insert(steerpoints, steerpoint)
-			    -- clear steerpoint so that we don't keep referencing the same table
+                -- clear steerpoint so that we don't keep referencing the same table
                 steerpoint = {}
+                foundStart = false
             end
 		
         else

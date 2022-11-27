@@ -1,4 +1,6 @@
 
+-- run this in a local lua environment for easier testing of regex
+
 local steerpointGeneration = dofile("steerpoint-generation.lua")
 
 local function printSteerpoint(stptTable)

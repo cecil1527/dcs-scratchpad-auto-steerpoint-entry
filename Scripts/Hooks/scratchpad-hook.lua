@@ -76,7 +76,7 @@ local function loadScratchpad()
         steerpointsTestBtn:addMouseDownCallback(
             function(self)
                 -- reload and run test.lua
-                dofile(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\test.lua]])
+                dofile(lfs.writedir()..[[Scripts\Scratchpad Steerpoints\test\test.lua]])
             end
         )
 
@@ -110,7 +110,7 @@ local function loadScratchpad()
 
         -- but the apache has special chars for steerpoints
         if acType == "AH-64D_BLK_II" then
-            result = result.."WP WP \n"
+            result = result.."TG \n"
         end
 
         return result

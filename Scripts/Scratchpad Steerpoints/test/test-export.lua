@@ -21,7 +21,7 @@ function TestExport.ReadDisplays()
 
     TestExport.last_write = t
     
-    local file = io.open(lfs.writedir()..[[\Scripts\Scratchpad Steerpoints\test-export.log]], "w")
+    local file = io.open(lfs.writedir()..[[\Scripts\Scratchpad Steerpoints\test\test-export.log]], "w")
     for i = 0, 100 do
         file:write(string.format("\n\nlist_indication(%d)", i))
         file:write(list_indication(i))
