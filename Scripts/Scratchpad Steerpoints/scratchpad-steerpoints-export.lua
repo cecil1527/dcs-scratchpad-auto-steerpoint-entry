@@ -1,7 +1,7 @@
 
 
 -- this will exist in the export environment, solely for the purposes of reading cockpit devices (MFDs, etc.), because i
--- can't find that functionality in the GUI environment...
+-- can't find that functionality in the GUI environment... 
 
 -- append path so it knows where socket is
 package.path = package.path .. ";.\\LuaSocket\\?.lua;"
@@ -35,8 +35,12 @@ function ScratchpadSteerpointsExport.Log(level, str)
 end
 
 function ScratchpadSteerpointsExport.StartUp()
+    -- ensure folder exists
+    local folder = lfs.writedir()..[[\Scripts\Scratchpad Steerpoints\logs\]]
+    lfs.mkdir(folder)
+    
     -- TODO use pcalls or something here in case io.open() goes wrong
-    ScratchpadSteerpointsExport.logFile = io.open(lfs.writedir()..[[\Scripts\Scratchpad Steerpoints\logs\scratchpad-steerpoints-export.log]], "w")
+    ScratchpadSteerpointsExport.logFile = io.open(folder..[[scratchpad-steerpoints-export.log]], "w")
     ScratchpadSteerpointsExport.Log(ScratchpadSteerpointsExport.logLevels.info, "Log file opened")
 
     -- TODO same here in case require goes wrong

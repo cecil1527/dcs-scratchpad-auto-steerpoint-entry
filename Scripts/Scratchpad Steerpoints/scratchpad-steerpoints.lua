@@ -52,8 +52,12 @@ function SCRATCHPAD_STEERPOINTS.Log(level, str)
 end
 
 function SCRATCHPAD_STEERPOINTS.StartUp()
+    -- ensure folder exists
+    local folder = lfs.writedir()..[[\Scripts\Scratchpad Steerpoints\logs\]]
+    lfs.mkdir(folder)
+
     -- TODO use pcalls or something here in case io.open() goes wrong
-    SCRATCHPAD_STEERPOINTS.logFile = io.open(lfs.writedir()..[[\Scripts\Scratchpad Steerpoints\logs\scratchpad-steerpoints.log]], "w")
+    SCRATCHPAD_STEERPOINTS.logFile = io.open(folder..[[scratchpad-steerpoints.log]], "w")
     SCRATCHPAD_STEERPOINTS.Log(SCRATCHPAD_STEERPOINTS.logLevels.info, "Log file opened")
 
     -- TODO same here in case require goes wrong
